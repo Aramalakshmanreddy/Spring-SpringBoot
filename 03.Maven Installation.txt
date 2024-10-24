@@ -1,0 +1,30 @@
+Maven : 
+
+Maven is a build tool for the Java ecosystem applications.
+
+what is a build tool?
+
+Whenever we are trying to build web applications, we may use lot many libraries like when we try to download the Java JDK, JRE, we will only get the libraries or jars related to core Java.
+
+But think like you are trying to build a web application which leverages Spring framework, servlets Hibernate framework or any other framework in this kind of scenarios.
+
+Without a build tool like MAVEN, you as a developer need to download all the jars of the libraries that you are going to use and configure them manually inside the classpath of your web application.
+
+And this is the most tedious and cumbersome process that developers they used to follow before MAVEN, but with the help of Maven and Gradle, you don't have to do all that manual job.
+
+You just define what libraries you want to use inside your web application with the help of a configuration file called Pom.xml.
+
+Once you define all the libraries details inside the Pom.xml, the MAVEN is going to do all the magic for you.
+
+It is going to download all the libraries from the centralized repository inside the web, and the same will be configured inside your local system.
+
+-----------------------------------
+
+Link : https://maven.apache.org/
+repo : https://mvnrepository.com/
+
+to check whether it is downloaded :
+
+mvn --version  
+
+Inellij Download link :  https://www.jetbrains.com/idea/download/?section=windows

@@ -1,0 +1,120 @@
+Aspect-Oriented Programming: example 17
+
+An aspect is simply a piece of code , the spring framework executes when you call specific methods inside your app.
+
+Spring AOP enables Aspect-Oriented Programming in spring applications. In AOP , aspects enable the modularization of concerns such as transcation management , logging or security that cut across multiple types and objects ( often termed crosscutting concerns).
+
+
+1) AOP provides the way to dynamically add the cross-cutting concern before ,after or around the actual logic using simple pluggable configurations.
+
+2) AOP helps in separating and maintain many non-business logic related code like logging , auditing , security and transcation management.
+
+3) AOP is a programming paradigm that aims to increase modularity by allowing the separation of cross-cutting concerns. It does this by adding additional behaviour to existing code without modifying the code itself.
+
+
+---Note
+
+mana method excute ki enta time padutundi anedi telsukonniki :
+
+Instant start = Instant.now();
+
+logic
+
+Instant finish = Instant.now();
+long timeElapsed = Duration.between(start , finish).toMills();
+
+------------
+
+AOP Jargons:
+
+When we define an Aspect or doing configurations , we need to follow WWW(3 Ws)
+
+WHAT -> Aspect ( WHAT code or logic we want the sprint to excute when you call a specific method . this is called as Aspect)
+
+WHEN -> Advice ( WHEN the spring need to excute the given aspect . For example is it before or after the method call . this is called as Advice)
+
+WHICH -> Pointcut ( WHICH method inside App that frameworks needs to intercept and excute the given Aspect. This is called as a Pointcut.)
+
+Join point : whch defines the event that triggers the execution of an aspect. Inside Spring, this event is always a method call.
+
+Target object is the bean that declares the method/pointcut which is intercepted by an aspect.
+
+Example Scenario of AOP implementation:
+
+
+Developer want some logic to be excuted before each execution of method playmusic() present inside the bean VehicleService
+
+somelogic -> Aspect
+before -> Advice
+execution -> Jointpoint
+playMusic() -> pointcut
+VehicleServices -> Target Object
+
+----------------------------------------
+
+Weaving Inside AOP:
+
+When we are implementing AOP insdie our app using spring framework, it will intercept each method call and apply the logic defined in the Aspect.
+
+But how does this works? Spring does this with the help of proxy object . so we try to invoke a method inside a bean, Spring instead of directly giving reference of the bean instead it wwill give a proxy object that will manage the each call to a method and apply the aspect logic. this process is called Weaving.
+
+Without AOP , method is directly called and no interception by spring
+
+with AOP , method excutions will be intercepted by proxy object and aspect will be excuted. post that actual method invocation will happen.
+
+-----------------------------------------------
+
+Types of Adives We can configure inside AOP:
+
+@Before ( Before advice runs before aa matched method execution)
+
+@AfterReturning ( After returning advice runs when a matched method execution completes normally.)
+
+@AfterThrowing ( After throwing advice runs when a matched method execution exits by throwing an exception)
+
+@After ( After (finally) advice runs no matter how a matched method excuted exits)
+
+@Around ( Around advice runs "around" a matched method execution. It has the opportunity to do work both before and after the method runs and to determine when , how and even if the method actually ggets to run at all.)
+
+---------------------------------------------------
+
+Configuring Advices inside AOP:
+
+We can use the AspectJ pointcut expression to provide details to spring about what kind od methods it needs to intercept by mentioning details around modifier, return type , name pattern , package name pattern , params pattern , exceptions pattern etc.
+
+Excution expression approach:
+
+execution(modifiers-pattern? ret-type-pattern declaring-type-pattern? name-pattern(param-pattern) throws-pattern?)
+
+modifiers-pattern  - used to define method modifiers like public , private
+ret-type-pattern   - used to define return type of the method
+name-pattern(param-pattern) - used to ddefine any name pattern , package pattern , params pattern of the method
+throws-pattern - used to define the specific exception pattern that can be thrown by the method.
+
+
+@Configuration
+@ComponentScane(basePackages=("com.aspects")
+@EnableAspectJAutoProxy
+public class projectConfig{
+
+}
+
+@Aspect
+@component
+publc class LoggerAspect{
+
+@Aound("execution(* com.example.service.*.*(..))")
+public void log(ProceedingJointPoint jointpoint) thows throwable{
+//Aspect logic
+}
+}
+
+
+---------------------------Implementing--------------------------
+
+dependency : example 17
+
+1) <artifactId>spring-aspects<.artifactId>
+2) inside config ( add @EnableAspectJAutoProxy)
+
+section 59 and 60 ( pending , creating custom annotations)

@@ -1,0 +1,142 @@
+Spring Core:
+
+Spring Core is the heart of entire spring. It contains some base frameworl classes , principles and mechanisms.
+
++> Spring MVC , Spring Data , Spring Boot , Spring Cloud , Spring Security , 
+Spring AOP.
+
+The Entire Spring Framework and other projects of Spring are developed on the top of the Spring Core.
+
+Spring Core Contains following Important components,
+
+1) Inversion of Control (IoC)
+2) Dependency Injection (DI)
+3) Beans
+4) Context 
+5) SpEL (Spring Expression Language)
+6) IoC Container
+
+
+---------------------------------
+
+1) Inversion of Control (IoC):
+
+
+So what this inversion of control principle says is, never ever create the objects or the dependencies that you need inside your program directly.
+
+Instead, describe the ways object has to be created to an external entity which means, as a developer,
+
+I should never take the responsibility of creating my own dependencies or the objects that my program needed.
+
+Instead, I should rely on a framework or an external entity by providing the configurations or the dependencies that my program needed.
+
+But IOC just an principle.
+
+It will just give you the guidelines like the name was saying inversion of control.
+
+So what the inversion of control means is instead of programmer controlling the flow of a program, a framework or an external entity should take control of the program flow.
+
+So that's why we call it as inversion of control.
+
+
+2) Dependency Injection (DI) :
+
+It is a pattern through which inversion of control is achieved and again, dependency injection is not something specific to Java and Spring.
+Spring frameworks also leverages dependency injection to control the flow of your program.
+
+** spring core, which is again the base for all the spring projects and spring framework built on core principles called inversion of control and dependency injection.
+
+Inversion of control is just an principle, whereas dependency injection is an implementation of that inversion of control.
+
+So we can call dependency injection as a design pattern through dependency injection.
+
+The responsibility of creating the objects inside any application is shifted from the application or programmer to the any external framework or inside spring we call it as IOC container.
+
+
+** why spring adopted dependency injection and inversion control means to achieve loose coupling between the components that we build are between the classes that we build inside any application.
+
+** Dependency Injection is the pattern through which Inversion of Control achieved.
+
+=> Through Dependency Injection , the responsibility of creting Objects is shifted from the application to the Spring IoC Container . It reduces coupling between multiple objects as it is dynamically injected by the framework.
+
+
+-----------------------------
+
+Advantages of IoC & DI:
+
+Loose Coupling between the components : you don't have to change your code whenever your dependencies changed inside your program.
+
+Minimizes the amount of code in your application :  As a developer, I am free from objects creation and I don't have to create the same object in many places wherever I need. I just need to provide the dependencies. That way I can use the same object instead of creating each and every time. I'll just autowire them to my class and spring will make sure those objects are available during the runtime when these methods are getting executed.
+
+Makes Unit testing easy with different mocks: 
+
+Increases System Maintainability and Module Reusability:  because the object creation will happen only at one time inside spring context, and the same object will be used in all the places inside your project. And since your components are loosely coupled at any point of time, if you want to change your requirements or dependencies, you are free to do that.
+
+-----------------------------------
+
+3) Spring Bean:
+
+Any Normal POJO java class that is instantiated , assembled and maintined by the Spring IoC Continer is called Spring Bean.
+
+>+ Whenever a java class is being maintained by the sping container , then that java classs we can call it as a bean.
+
+--------------------------------------
+
+4) Context : 
+
+context is like a memory location of your web application in which all the objects are instantiated by the framework are present and managed by it with the help of context information .
+
+>+ Context is a place where all your beans information and the dependencies which will be maintained by your spring IoC Container based upon the configurations that we give to the spring framework.
+
+------------------------------
+
+5) Spring Expression Language(SpEL):
+
+when spring maintains our thousands and hundreds of beans and their methods and their values available inside those objects, we need an expression language for querying and manipulating any information or to fetch any information from the objects at runtime.
+
+So like setting and getting property values or invoking a method or property assignment.
+
+So to perform all these operations, Spring Framework uses an powerful expression language which we call it as spring expression language itself.
+
+>+ The SpEL provides a powerful expression language for querying and ,manipulating an object graph at runtime like setting and getting property values , property assignment , method invocation etc.
+
+------------------------------------
+
+6) Spring IoC Container : which maintains all our beans intthe container.
+
+So spring IOC container is a component inside spring core framework, which is responsible for creating the beans, for configuring the objects and the dependencies between them (Objects / beans).
+
+So basically all the lifecycle of the beans will be maintained by the spring IOC container.
+
+Whether you want to create a bean, whether you want to destroy a bean. So all those events will be controlled by the spring IOC container.
+
+>+ So this is a entity that is responsible inside spring framework to manage all your Java objects by converting them into the beans and based upon the configurations, dependencies that we defined inside our application,
+
+>+ It is the IOC container that at runtime , dynamically injects the dependencies between multiple objects with the dependency injection pattern 
+
+
+The IoC Container is responsible : 
+  to instantiate the application class
+  to configure the object
+  to assemble the dependencies between the objects
+
+
+2 types of IoC Containers .
+
+1) Bean Factory : So Bean factory is a very basic IOC container where it will not provide you any advanced features, so it can only handle the bean creation, bean maintenance, auto wearing them and injecting the dependencies based upon dependency injection pattern.
+
+2) Application Context : this is an advanced IOC container and off course application context implements bean factory also.
+
+On top of that, it provides extra features to the developers.
+
+Like if you are in a scenario where after creating a bean, you want some code to be executed or just before destroying a bean if you want to execute a business logic.
+So all these kind of event publishing around the spring beans can be handled with the help of application context interface and its implementations.
+
+## When you go for bean factory and application context :
+
+So if you want to write a very basic spring application where you don't want to use any advanced features of spring framework, then you should go for the bean factory implementation.
+
+Otherwise I would always recommend you to go with the application context.
+IOC container. Like I mentioned before, spring IOC container,
+how it injects the dependencies between the multiple objects is with the help of dependency injection pattern.
+

@@ -1,0 +1,262 @@
+Creating Beans using @Bean annotation :
+
+When we create an java object with new() operator directly as shown below, then your spring Context/Spring IoC Container will not have any clue of the the object.
+
+Vechile vechile = new Vechile();
+
+
+
+
+@Configuration:
+
+The purpose of this @configuration annotation inside the spring framework is this will let my IOC container to scan all the content of this class because this is an indication to the spring framework that the developer has done some changes which will result into creating beans.
+
+-----------------------------------------------------
+
+# NoUniqueBeanDefinationException:
+
+When we create multiple objects of same type and try to fetch the bean from context by type, then Spring cannot guess which instance you have declared you refer to. this will lead to NoUniqueBeanDefintionException.
+
+ @Bean
+    Vechile vechile1() {
+       var veh = new Vechile();
+       veh.setName("Audi 8");
+       return veh;
+   }
+
+@Bean
+    Vechile vechile2() {
+       var veh = new Vechile();
+       veh.setName("Audi");
+       return veh;
+   }
+
+
+
+To avoid NoUniqueBeanDefinitionException in these kind of scenarios , we fetch the bean from the context by mentioniong it's name like shown below,
+
+var context = new AnnotationConfigApplicationContext(Projectconfig.class);
+Vehicle veh = context.getBean("vehicle1" , Vehicle.class);
+s.o.p(veh.getName());
+
+------------------------------------------------
+
+Different Ways to name a Bean:
+
+By default , Spring will consider the method name as the bean name. but if we have a custom requirement to define a separare bean name , then we can use any of the below approach with the help of @Bean annotation.
+
+
+@Bean(name="audiVehicle")
+    Vechile vechile1() {
+       var veh = new Vechile();
+       veh.setName("Audi 8");
+       return veh;
+   }
+
+@Bean(name="hondVehicle")
+    Vechile vechile2() {
+       var veh = new Vechile();
+       veh.setName("Audi");
+       return veh;
+   }
+
+var context = new AnnotationConfigApplicationContext(Projectconfig.class);
+Vehicle veh = context.getBean("audiVehicle" , Vehicle.class);
+s.o.p(veh.getName());
+
+-----------------------------------------------
+
+@Primary Annotation:
+
+When you have multiple beans of the same kind inside the spring context, you can make one of them primary using @Primary annotation. 
+
+@Primary annotation bean is the one which spring will choose if it has multiple options and you do not specify a name , in other words , it is default bean that spring context will consider in case of confusion due to multiple beans present of same type.
+
+
+@Bean(name="audiVehicle")
+    Vechile vechile1() {
+       var veh = new Vechile();
+       veh.setName("Audi 8");
+       return veh;
+   }
+
+@Primary
+@Bean(name="hondVehicle")
+    Vechile vechile2() {
+       var veh = new Vechile();
+       veh.setName("Audi");
+       return veh;
+   }
+
+var context = new AnnotationConfigApplicationContext(Projectconfig.class);
+Vehicle veh = context.getBean(Vehicle.class);
+s.o.p(veh.getName());
+
+Note : if you keep @Primary in more than 1 bean , then you will get NoUniqueBeanDefinationException.
+
+------------------------------------------------------------
+
+Creating Beans using @Component annoatation:
+
+@component is one of the most commonly used stereotype annotation by developers , using this we can easily create and add a bean to the spring context by writing less code compared to the @Bean option. with stereotype annotations , we need to add the annotation above the class for which we need to have an instance in the spring context.
+
+Using @ComponentScan annotation over the configuration class , instruct Spring on where to find the classes you marked with the stereotype annotations.
+
+@Component
+public class Vechile {
+
+
+@Configuration
+@ComponentScan(basePackages = "com.example.beans")
+public class ProjectConfig {
+
+
+ Vechile veh = context.getBean("vechile1" ,Vechile.class);
+        System.out.println("Vehicle name from Spring Context is: " +veh.getName());
+        veh.printHello();
+
+
+---------------------------------------------------------------
+
+Spring Stereotype Annotations:
+
+Spring provides special annotations called stereotype annotations which will help to create the spring beans automatically in the application context.
+
+The stereotype annotations in spring are @Component , @Service , @Repository , @Controller.
+
+@component : is used as general on top of any java class. it is base for other annotations.
+
+@Service : can be used on the top of the classes inside the service layer especially where we write the business logic and make external API Calls.
+
+@Repostiory : can be used on top of the classes which handles the code related to Database access related operations like Insert , Update , Delete etc.
+
+@Controller : can be used on top of the classes inside the controller layer of MVC applications.
+
+---------------------------------------------------------
+
+@Bean Vs @Component :
+
+-------------------------------------------------------
+
+@PostConstruct Annotation:
+
+We have seen that when we are using Stereotype annotations , we do not have control while creating a bean . but what if we want to excute some instructions post spring creates the bean . For the same , we can use @PostConstruct annotation.
+
+we can define a method in the component class and annotate that method with @PostConstruct , which instructs Spring to excute that method after it finishes creating the bean.
+
+Spring borrows the @PostConstruct annotation from java EE.
+
+@Component
+public class Vechile {
+    private String name;
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    @PostConstruct
+    public void initialize(){
+        this.name = "Honda";
+     }
+    public void printHello(){
+        System.out.println("Printing Hello from component Vechile bean");
+    }
+}
+
+
+var context = new AnnotationConfigApplicationContext(ProjectConfig.class);
+
+        Vechile veh = context.getBean("vechile1" ,Vechile.class);
+        System.out.println("component Vehicle name from Spring Context is: " + veh.getName());
+        veh.printHello();
+
+no bean is there in config now .....
+
+-----------------------------------
+
+@PostDestroy annotation:
+
+@preDestroy annotation can be used on top of the methods and spring will make sure to call this method just before clearing and destroying the context.
+
+This can be used in the scenaios where we want to close any IO resources , Database Connections etc..
+Spring borrows the @PreDestroy annotation also fro javaEE.
+
+-------------------------------------
+
+Creating the beans programmatically using registerBean(): example 7
+
+Sometimes we want to create new instances of an object and add them into the spring context based on a programming condition.
+For the same , from spring 5 version , a new approach is provided to create the beans programmatically by invoking the "registerBean()" method present inside the context object.
+
+
+context.registerBean("Volkswagen" , Vehicle.class , volkswagenSupplier);
+
+context : The application Context instance object
+Volkswagen : The name we want to give to the bean that we add to the spring context
+Vehicle.class : the type of bean we are creating
+volkswagenSupplier : The supplier returning the object instance that we want to add to the spring context.
+
+
+if((randomNumber %2)==0){
+context.registerBean("Volkswagen" , Vehicle.class , volkswagenSupplier);
+}
+else{
+context.registerBean("audi" , Vehicle.class , volkswagenSupplier);
+}
+
+
+------------------------------------------
+
+Creating Beans using XML Configurations: example 8
+
+under resource folder , we should create beans.xml file 
+
+<bean id="vehicle" class="com.example.beans.vehicle">
+   <property name="name" value="Honda" />
+</bean>
+
+var context = new ClassPathXmlApplicationContext("beans.xml");
+Vehicle vehicle = context.getBean(Vehicle.class);
+S.o.p("Vehicle from spring contextis :" + vehicle.getName());
+
+--------------------------------------
+
+Why should we use frameworks:
+
+what user can see : UI/UX , Business logic and Responsive
+
+Supportig components : Sessions & caching , transactions , security , Batch Processing , Data Transfer , Logging , DB Persistence 
+
+when we use frameworks , leverage security , logging etc from frameworks oherwise we need to build code for security and logging etc .. 
+
+can easily scale the application , focus more on business logic , app will work in a predictable manner and less efforts and more results/revenue.
+
+with the help of frameworks , we can just focus on business logic , since frameworks take care of common non functional equirements like logging , security etc . also when frameworks used , it makes our application predictable and easily scalable.
+---------------------------------------------
+
+Spring Projects :
+
+Web Application :
+
+Spring Core & MVC
+Spring Boot
+Spring Data (Database)
+Spring Cloud (Dockers , kubernates)
+Spring Security (authentication  , authorization , jwt , oauth etc)
+Spring Session (to implement session based business logic , using the session and caching we can reduce to num of calls to db o backend apis)
+Spring Integration ( where one application wants to send data to other applications)
+Spring AMQP ( messaging Queues for aysnc data through queues like rabbit mq etc)
+
+
+Link : spring.io ( maintained by VMware)
+
+
+
+Valid ways of naming a bean :
+
+@Bean(name="sad")
+@Bean(value="aqssd")
+@Bean("asdfd")
+
+@Bean(alias="sddf") -> incorrect

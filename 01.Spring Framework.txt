@@ -1,0 +1,46 @@
+Spring FrameWork:
+
+
+GitHub Link : https://github.com/eazybytes/spring
+
+
+What is Spring :
+
+1) The Spring Framework is a mature , powerful and highly flexible framework focused on building web app in java.
+
+2) The Spring Framework is a comprehensive and widely-used framework for building Java-based enterprise applications. It provides infrastructure support at the application level, allowing developers to focus on building business logic rather than worrying about lower-level details like configuration, transaction management, or security.
+
+----------------------------------
+
+Java Editions :
+
+1) Standard Edition : which will have all Core java classes , interfaces like object class collections, API , JDBC, exception handling.
+
+2) Mobile Edition : Java M
+
+3) Enterprise Edition (with the name Java EE or name starts from J2. and later on it changed to java , Bali and the now the name is "Jakarta" which is Jakartha Enterprise Edition) : Web Applications ( contains all the advanced concepts like servlets Jsps Ejbs, JMS JPS , which is used for persistent framework javaserver faces, which is JSF and all web servies related Jax-ws Jaxb WebSockets.) which can build web applications that will accept a request and send a response from an servlet container.
+
+But the proble with the enterprise edition is that it is super complex and it expects a lot from a developer in terms of configurations , n terms of defining the dependencies and in terms of writing the extra boilerplate code. So due to that , Complexities in nature Spring framework came as an alternate to it.
+
+
+For now , Spring is an Framework that build based upon the enterprise edition. , so it's not a competition to the enterprise edition framework because spring can't exist without enterprise edition features like basic java linraries , servlets .
+
+-------------------------------
+
+Spring Core:
+
+Spring Core is the heart of entire spring. It contains some base frameworl classes , principles and mechanisms.
+
++> Spring MVC , Spring Data , Spring Boot , Spring Cloud , Spring Security , 
+Spring AOP.
+
+The Entire Spring Framework and other projects of Spring are developed on the top of the Spring Core.
+
+Spring Core Contains following Important components,
+
+1) Inversion of Control (IoC)
+2) Dependency Injection (DI)
+3) Beans
+4) Context 
+5) SpEL (Spring Expression Language)
+6) IoC Container

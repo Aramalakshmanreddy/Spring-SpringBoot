@@ -1,0 +1,82 @@
+Bean Scope inside Spring:
+
+5 types:
+
+Singleton , Prototype , Request , Session , Application.
+
+
+# Singleton Bean Scope: example 14
+
+Singleton is the default scope of a bean in Spring. In this scope , for a single bean we always get a same instance when you refer or autowire inside your application.
+
+Unlike Singleton design pattern where we have only 1 instance in entire app , inside singleton scope - spring will make sure to have only 1 instance per unique bean.
+
+For Example , If you have multiple beans of same type , then spring singleton scope will maintain 1 instance per each bean declared of same type.
+
+@Component
+@Scope(BeanDefinition.SCOPE_SINGLETON) // creates a single bean inside the spring context
+public class VehicleServices{
+
+
+
+VehicleServices vehicleServices1 = context.getBean(VehicleServices.class);
+VehicleServices vehicleServices2 = context.getBean("vehicleSevices",VehicleServices.class);
+
+//these 2 variable refers to the same bean inside Spring context
+
+
+** singleton scope means when you have a bean inside your spring application and if you are trying to refer that bean at any places inside your application, either it might be by using get bean method or by using dependency injection and autowiring concept, you will always get the same instance of the bean, which means once you created a bean of type singleton scope, you can refer that singleton bean 100 times inside your application, but you will not get 100 different objects of a specific bean. Instead, you will always get the same object instance given inside your application by the spring IOC container.
+
+---------------------------------------
+
+#RACE Condition:
+
+A Race Condition occurs when 2 threads access a shared variable at the same time. The first thread reads the variable , and the second thread reads the same value from the variable. Then the first thread and second thread perform their operations on the value , and they race to see which thread can write the valus last to the shared varible . the value of the thread that wites its value last is preserved , because the thread is writing over the value that the previous thread wrote.
+
+//shared value inside a object
+Map<String , String> reservedTables = new HashMap<>();
+
+//thread -1
+if(!reservedTables.containsKey("table1")){
+reservedTables.put("table1","USER1");
+}
+
+//thread -2
+if(!reservedTables.containsKey(table1")){
+reservedTables.put("table1","USER2");
+}
+
+if both the threads run the if condition at a same time, then both of them will reserve the table for different users.
+
+-----------------------------------------
+
+Eager & Lazy Instantiaton : eample 15
+
+By default Spring will crete all the singleon beans eagerly during the startup o the application itself. this is called Eager Instantiation.
+
+We can change the default behaviour to intialize the singleton beans lazily only when the applications is trying to efer to the ben. this approach is called lazy instantiation.
+
+demo of lazy :
+
+@Component(value= "personBean")
+@Lazy
+public class person{  // person bean will get creatd only when app try toaccess it.
+
+----------------------------------------
+
+Prototype Bean Scope:
+
+With prototype scope , every time we request a reference of a bean , spring will create a new object instance and provide the same.
+Prototype scope is rarely used inside the applications and we cn use this scopeonly in thee scenarios where your bean will frequently change the state of the data which will result race conditions inside multi thread environment . Using prototype scope will not create any race conditions.
+
+@Component
+@Scope(BeanDefinition.SCOPE_PROTOTYPE) 
+public class VehicleServices{
+
+
+
+VehicleServices vehicleServices1 = context.getBean(VehicleServices.class);
+VehicleServices vehicleServices2 = context.getBean("vehicleSevices",VehicleServices.class);
+
+//2 vehicle service Instnces are created  , creatd 2 beans in Ioc
+ 

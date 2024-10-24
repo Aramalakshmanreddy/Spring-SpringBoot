@@ -1,0 +1,134 @@
+Introduction to wiring beans inside the Spring:
+
+
+Inside Java web applications , usually the objects delegate certain responsibilities to other objects. So in this scenarios , objects will have dependency on others
+
+In very similar lines when we create various beans using spring , it our responsibility to understand the dependencies that beans have and wire them. this concept inside is called Wiring/Autowiring.
+
+
+1st method: Wiring bean using method call: example 9
+
+   @Bean
+    public Vechile vechile() {
+       Vehicle veh = new Vehicle()
+       veh.setName("Audi 8");
+       return veh;
+   }
+
+@Bean
+public person person(){
+Person person = new Person();
+person.setName("Lucy");
+person.setVehicle(vehicle()); //wiring happening here
+return person;
+}
+
+
+-------------------------
+Wiring beans using method parameters: example 10
+
+Here in the below code , we are trying to wire or establish a relationship between Person and Vehicle , by passing the vehicle as a method parameter to the person() bean method . Now inside Spring context , person owns the vehicle.
+
+Spring injects vehicle bean to the person bean using Dependency Injection.
+Spring will make sure to have only 1 vehicle bean is created and also vehicle bean will be created first always as person beean has dependency on it.
+
+@Bean
+public Vechile vechile() {
+Vehicle veh = new Vehicle()
+veh.setName("Audi 8");
+return veh;
+   }
+
+@Bean
+public person person(Vehicle vehicle){
+Person person = new Person();
+person.setName("Lucy");
+person.setVehicle(vehicle); //wiring happening here
+return person;
+}
+
+--------------------------------------
+
+Wiring Beans using @Autowied on class fields: example 11
+
+> The @Autowired annotation marks on a field , setter method and constructor is used to autowire the beans that is injecting beans(objects) at runtime by Spring Dependency Injection mechanism.
+
+> with the below code , Spring injects/ auto-wire the vehicle bean to the person bean through a class field and dependency injection.
+
+>the below style is not recommended for production usage as we can't mark the fields as final.
+
+@Component
+public class Person{
+private string name = "Lucy"
+
+@Autowired
+private Vehicle vehicle;
+
+
+*** @Autowired(required = false) will help to avaoid the NoSuchBeanDefinitionException if the bean is not available during Autowiring process.
+
+---------------------------------------
+
+Inject Beans using @Autowired on setter method: 
+
+
+@Component 
+public class Person{
+
+private String name="Lucky";
+private Vehicle vehicle;
+
+@Autowired
+public void setVehicle(Vehicle vehicle){
+this.vehicle = vehicle;
+}
+
+------------------------------------
+
+Inject Beans using @Autowired with Constructor:
+
+From Spring version 4.3 , when we only have one constructor in the class , writing the @Autowired annotation is optional.
+
+@Componeent
+public class Person{
+private String name = "Lucky";
+Private finaal Vehicle vehicle;
+
+@Autowired
+public Person(Vehicle vehicle){
+S.o.p(person bean created by spring);
+this.vehicle = vehicle;
+}
+
+---------------------------------
+
+How Autowiring works with multiple Beans of same type: example 12
+
+@Qualify
+
+----------------------------------------
+
+Understanding & Avoiding Circular Dependencies:
+
+A Circular dependency will happen if 2 beans are waiting for each to create inside the Spring context in order to do auto-wiring.
+
+Consider the below scenario , where Person has a dependency on Vehicle and Vehicle has a dependency on Person . In  Such scenarios , spring will throw "UnsatisfiedDependencyException" due to circular reference.
+
+As a dev , it is our responsibility to make sure we are defining the configurations/dependencies that will result in circular dependencies.
+
+@Component 
+public class person{
+private String name="Lucky";
+private Vehicle vehicle;
+
+@Autowired
+public void setVehicle(Vehicle vehicle){
+this.vehicle = vehicle;
+}
+
+public class Vehicle{
+private String name;
+@Autowired
+private Person person;
+
+------------------------------------------------
